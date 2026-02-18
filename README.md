@@ -57,7 +57,7 @@ pnpm format:ci       # prettier list-different
 
 ## Project Structure
 
-```
+```bash
 app/
   routes/        # file-based routing
   components/
@@ -65,13 +65,3 @@ app/
   lib/
   hooks/
 ```
-
-## Tech Stack
-
-- React 19
-- React Router v7
-- Vite
-- TypeScript
-- TailwindCSS v4
-- shadcn/ui
-- Zod

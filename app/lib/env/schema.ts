@@ -5,5 +5,7 @@ export const clientSchema = z.object({
 });
 
 export const serverSchema = z.object({
-	NODE_ENV: z.enum(["development", "production", "test"]).optional(),
+	NODE_ENV: z
+		.enum(["development", "production", "test"])
+		.default("development"),
 });
