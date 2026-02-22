@@ -1,59 +1,55 @@
-import { Button } from "@components/ui/button";
+import { Link } from "react-router";
+
+import { AppLayout } from "@/components/layout/app-layout";
+import { Button } from "@/components/ui/button";
 
 import type { Route } from "./+types/home";
 
-/**
- *
- * @description `_` keep the `Route` type for example
- * @description if didn't use the `Route.MetaArgs` type at all, simply remove it
- * @example export function meta() { ... }
- * @returns meta
- */
 export function meta(_: Route.MetaArgs) {
 	return [
-		{ title: "Basic React Router v7 Starter" },
-		{
-			name: "description",
-			content:
-				"Scalable React Router v7 basic starter powered by Vite, TailwindCSS v4, shadcn/ui, strict TypeScript, and commit-safe tooling.",
-		},
+		{ title: "my-app" },
+		{ name: "description", content: "React Router v7 production starter" },
 	];
 }
 
-export default function Home() {
+export default function HomePage() {
 	return (
-		<div className="mx-auto flex h-full min-h-screen w-full max-w-lg flex-col items-center justify-center space-y-2">
-			<div className="space-y-2">
-				<h1 className="text-center text-xl font-bold md:text-3xl">
-					React Router v7 Starter
-				</h1>
+		<AppLayout>
+			<div className="flex flex-col gap-6">
+				<div>
+					<h1 className="text-2xl font-bold tracking-tight">
+						React Router v7 Starter
+					</h1>
+					<p className="text-muted-foreground mt-2 text-sm leading-relaxed">
+						A production-grade foundation with SSR, type-safe loaders &amp;
+						actions, Zod validation, error boundaries, and a feature-based
+						folder structure.
+					</p>
+				</div>
 
-				<p className="text-muted-foreground w-full max-w-lg">
-					Scalable React Router v7 basic starter powered by Vite, TailwindCSS
-					v4, shadcn/ui, strict TypeScript, and commit-safe tooling.
-				</p>
+				<div className="bg-card rounded-lg border p-5">
+					<h2 className="text-sm font-semibold">Included patterns</h2>
+					<ul className="text-muted-foreground mt-3 space-y-1.5 text-sm">
+						<li>✓ SSR loader + action with intent-based routing</li>
+						<li>
+							✓ Optimistic UI via <code className="text-xs">useFetcher</code>
+						</li>
+						<li>
+							✓ Zod validation — server-side with field-level errors surfaced to
+							client
+						</li>
+						<li>✓ Server-only module guard</li>
+						<li>✓ Root + route-level error boundaries</li>
+						<li>✓ 404 not-found route</li>
+						<li>✓ Top-level loading indicator</li>
+						<li>✓ Feature-based folder structure</li>
+					</ul>
+				</div>
 
-				<a
-					href="https://github.com/ahmdhndr/react-router-v7-starter"
-					target="_blank"
-					rel="noopener noreferrer"
-					aria-label="Github repo open in a new tab"
-				>
-					<Button>Github repo</Button>
-				</a>
+				<Button asChild className="w-fit">
+					<Link to="/todos">View Todo demo →</Link>
+				</Button>
 			</div>
-			<div className="self-start">
-				<h2 className="text-lg font-semibold md:text-xl">Features</h2>
-				<ol>
-					<li>File-based routing</li>
-					<li>Type-safe environment variables</li>
-					<li>Strict TypeScript</li>
-					<li>Pre-commit lint + typecheck gate</li>
-					<li>Production-ready build</li>
-					<li>Scalable structure</li>
-					<li>UI system with shadcn</li>
-				</ol>
-			</div>
-		</div>
+		</AppLayout>
 	);
 }
