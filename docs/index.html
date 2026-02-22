@@ -1,0 +1,722 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>React Router v7 Starter</title>
+		<meta
+			name="description"
+			content="Production-grade React Router v7 starter with SSR, Zod validation, shadcn/ui, TailwindCSS v4, and commit-safe tooling."
+		/>
+		<meta property="og:title" content="React Router v7 Starter" />
+		<meta
+			property="og:description"
+			content="Production-grade React Router v7 starter with SSR, Zod validation, shadcn/ui, TailwindCSS v4, and commit-safe tooling."
+		/>
+		<meta property="og:type" content="website" />
+
+		<style>
+			*,
+			*::before,
+			*::after {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			:root {
+				--bg: #0a0a0a;
+				--surface: #111111;
+				--border: #1e1e1e;
+				--text: #e8e8e8;
+				--muted: #666;
+				--accent: #e8e8e8;
+				--tag-bg: #1a1a1a;
+				--tag-text: #888;
+				--mono:
+					"JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace,
+					monospace;
+				--sans: "Inter", system-ui, sans-serif;
+			}
+
+			html {
+				scroll-behavior: smooth;
+			}
+
+			body {
+				background: var(--bg);
+				color: var(--text);
+				font-family: var(--sans);
+				font-size: 15px;
+				line-height: 1.7;
+				min-height: 100svh;
+				-webkit-font-smoothing: antialiased;
+			}
+
+			/* ── Layout ── */
+			.container {
+				max-width: 680px;
+				margin: 0 auto;
+				padding: 0 24px;
+			}
+
+			/* ── Header ── */
+			header {
+				border-bottom: 1px solid var(--border);
+				padding: 20px 0;
+			}
+
+			header .container {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+			}
+
+			.logo {
+				font-family: var(--mono);
+				font-size: 13px;
+				color: var(--muted);
+				letter-spacing: 0.05em;
+				text-decoration: none;
+			}
+
+			.logo span {
+				color: var(--text);
+			}
+
+			nav a {
+				font-size: 13px;
+				color: var(--muted);
+				text-decoration: none;
+				transition: color 0.15s;
+			}
+
+			nav a:hover {
+				color: var(--text);
+			}
+
+			/* ── Hero ── */
+			.hero {
+				padding: 80px 0 64px;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.badge {
+				display: inline-flex;
+				align-items: center;
+				gap: 6px;
+				font-family: var(--mono);
+				font-size: 11px;
+				color: var(--muted);
+				letter-spacing: 0.08em;
+				text-transform: uppercase;
+				margin-bottom: 24px;
+			}
+
+			.badge::before {
+				content: "";
+				display: block;
+				width: 6px;
+				height: 6px;
+				border-radius: 50%;
+				background: #3d9970;
+				box-shadow: 0 0 8px #3d997088;
+			}
+
+			h1 {
+				font-size: clamp(28px, 5vw, 38px);
+				font-weight: 600;
+				letter-spacing: -0.03em;
+				line-height: 1.2;
+				margin-bottom: 20px;
+			}
+
+			h1 em {
+				font-style: normal;
+				color: var(--muted);
+			}
+
+			.hero p {
+				font-size: 15px;
+				color: var(--muted);
+				max-width: 520px;
+				margin-bottom: 36px;
+			}
+
+			.cta-group {
+				display: flex;
+				gap: 12px;
+				flex-wrap: wrap;
+			}
+
+			.btn {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				padding: 9px 18px;
+				border-radius: 6px;
+				font-size: 13px;
+				font-weight: 500;
+				text-decoration: none;
+				transition:
+					opacity 0.15s,
+					background 0.15s;
+				cursor: pointer;
+			}
+
+			.btn-primary {
+				background: var(--text);
+				color: var(--bg);
+			}
+
+			.btn-primary:hover {
+				opacity: 0.88;
+			}
+
+			.btn-ghost {
+				background: transparent;
+				color: var(--muted);
+				border: 1px solid var(--border);
+			}
+
+			.btn-ghost:hover {
+				background: var(--surface);
+				color: var(--text);
+			}
+
+			/* ── Quick start ── */
+			.quickstart {
+				padding: 56px 0;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.section-label {
+				font-family: var(--mono);
+				font-size: 11px;
+				color: var(--muted);
+				letter-spacing: 0.1em;
+				text-transform: uppercase;
+				margin-bottom: 20px;
+			}
+
+			.code-block {
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 8px;
+				overflow: hidden;
+			}
+
+			.code-block-header {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				padding: 10px 16px;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.code-block-header span {
+				font-family: var(--mono);
+				font-size: 11px;
+				color: var(--muted);
+			}
+
+			.copy-btn {
+				font-family: var(--mono);
+				font-size: 11px;
+				color: var(--muted);
+				background: none;
+				border: none;
+				cursor: pointer;
+				padding: 2px 6px;
+				border-radius: 4px;
+				transition:
+					color 0.15s,
+					background 0.15s;
+			}
+
+			.copy-btn:hover {
+				color: var(--text);
+				background: var(--border);
+			}
+
+			pre {
+				padding: 20px;
+				font-family: var(--mono);
+				font-size: 12.5px;
+				line-height: 1.8;
+				overflow-x: auto;
+				color: var(--text);
+			}
+
+			pre .dim {
+				color: var(--muted);
+			}
+			pre .cmd {
+				color: #e8e8e8;
+			}
+
+			/* ── Stack ── */
+			.stack {
+				padding: 56px 0;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.stack-grid {
+				display: grid;
+				grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+				gap: 1px;
+				background: var(--border);
+				border: 1px solid var(--border);
+				border-radius: 8px;
+				overflow: hidden;
+				margin-top: 24px;
+			}
+
+			.stack-item {
+				background: var(--surface);
+				padding: 20px;
+				display: flex;
+				flex-direction: column;
+				gap: 4px;
+			}
+
+			.stack-item-name {
+				font-size: 13px;
+				font-weight: 500;
+				color: var(--text);
+			}
+
+			.stack-item-desc {
+				font-size: 12px;
+				color: var(--muted);
+			}
+
+			/* ── Patterns ── */
+			.patterns {
+				padding: 56px 0;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.pattern-list {
+				margin-top: 24px;
+				display: flex;
+				flex-direction: column;
+				gap: 1px;
+				border: 1px solid var(--border);
+				border-radius: 8px;
+				overflow: hidden;
+				background: var(--border);
+			}
+
+			.pattern-item {
+				background: var(--surface);
+				padding: 16px 20px;
+				display: flex;
+				align-items: baseline;
+				gap: 14px;
+			}
+
+			.pattern-num {
+				font-family: var(--mono);
+				font-size: 11px;
+				color: var(--border);
+				min-width: 20px;
+				user-select: none;
+			}
+
+			.pattern-body {
+			}
+
+			.pattern-title {
+				font-size: 13px;
+				font-weight: 500;
+				color: var(--text);
+				margin-bottom: 2px;
+			}
+
+			.pattern-desc {
+				font-size: 12px;
+				color: var(--muted);
+				line-height: 1.6;
+			}
+
+			code {
+				font-family: var(--mono);
+				font-size: 11.5px;
+				background: var(--tag-bg);
+				color: var(--tag-text);
+				padding: 1px 5px;
+				border-radius: 3px;
+			}
+
+			/* ── Structure ── */
+			.structure {
+				padding: 56px 0;
+				border-bottom: 1px solid var(--border);
+			}
+
+			.tree {
+				margin-top: 24px;
+				background: var(--surface);
+				border: 1px solid var(--border);
+				border-radius: 8px;
+				padding: 20px;
+				font-family: var(--mono);
+				font-size: 12px;
+				line-height: 2;
+				color: var(--muted);
+				overflow-x: auto;
+			}
+
+			.tree .hl {
+				color: var(--text);
+			}
+			.tree .comment {
+				color: #333;
+				font-size: 11px;
+			}
+
+			/* ── Footer ── */
+			footer {
+				padding: 40px 0;
+				border-top: 1px solid var(--border);
+			}
+
+			footer .container {
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				flex-wrap: wrap;
+				gap: 12px;
+			}
+
+			footer p {
+				font-size: 12px;
+				color: var(--muted);
+			}
+
+			footer a {
+				color: var(--muted);
+				text-decoration: none;
+				transition: color 0.15s;
+			}
+
+			footer a:hover {
+				color: var(--text);
+			}
+
+			/* ── Animations ── */
+			@keyframes fadeUp {
+				from {
+					opacity: 0;
+					transform: translateY(16px);
+				}
+				to {
+					opacity: 1;
+					transform: translateY(0);
+				}
+			}
+
+			.hero > * {
+				animation: fadeUp 0.5s ease both;
+			}
+
+			.hero .badge {
+				animation-delay: 0s;
+			}
+			.hero h1 {
+				animation-delay: 0.07s;
+			}
+			.hero p {
+				animation-delay: 0.14s;
+			}
+			.hero .cta-group {
+				animation-delay: 0.21s;
+			}
+
+			@media (max-width: 480px) {
+				.stack-grid {
+					grid-template-columns: 1fr;
+				}
+				header .container {
+					gap: 16px;
+				}
+			}
+		</style>
+	</head>
+	<body>
+		<!-- Header -->
+		<header>
+			<div class="container">
+				<a class="logo" href="#"> <span>rr7</span>-starter </a>
+				<nav>
+					<a
+						href="https://github.com/ahmdhndr/react-router-v7-starter"
+						target="_blank"
+						rel="noopener"
+					>
+						GitHub →
+					</a>
+				</nav>
+			</div>
+		</header>
+
+		<!-- Hero -->
+		<section class="hero">
+			<div class="container">
+				<div class="badge">Production ready</div>
+				<h1>React Router v7<br /><em>Starter Kit</em></h1>
+				<p>
+					A minimal but complete foundation for SSR React apps — with type-safe
+					loaders &amp; actions, Zod validation, shadcn/ui, TailwindCSS v4, and
+					commit-safe tooling wired up from day one.
+				</p>
+				<div class="cta-group">
+					<a
+						class="btn btn-primary"
+						href="https://github.com/ahmdhndr/react-router-v7-starter"
+						target="_blank"
+						rel="noopener"
+					>
+						View on GitHub
+					</a>
+					<a
+						class="btn btn-ghost"
+						href="https://github.com/ahmdhndr/react-router-v7-starter/blob/main/PRODUCTION_EXTENSION.md"
+						target="_blank"
+						rel="noopener"
+					>
+						Read the docs
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<!-- Quick start -->
+		<section class="quickstart">
+			<div class="container">
+				<p class="section-label">Quick start</p>
+				<div class="code-block">
+					<div class="code-block-header">
+						<span>terminal</span>
+						<button class="copy-btn" data-copy="quickstart">copy</button>
+					</div>
+					<pre id="quickstart"><span class="dim"># scaffold</span>
+<span class="cmd">pnpm create react-router7 new my-app</span>
+<span class="cmd">cd my-app</span>
+
+<span class="dim"># install & run</span>
+<span class="cmd">pnpm install</span>
+<span class="cmd">pnpm dev</span></pre>
+				</div>
+			</div>
+		</section>
+
+		<!-- Stack -->
+		<section class="stack">
+			<div class="container">
+				<p class="section-label">Stack</p>
+				<div class="stack-grid">
+					<div class="stack-item">
+						<span class="stack-item-name">React Router v7</span>
+						<span class="stack-item-desc"
+							>SSR, loaders, actions, file-based routing</span
+						>
+					</div>
+					<div class="stack-item">
+						<span class="stack-item-name">TailwindCSS v4</span>
+						<span class="stack-item-desc"
+							>CSS-first config, zero JS overhead</span
+						>
+					</div>
+					<div class="stack-item">
+						<span class="stack-item-name">shadcn/ui</span>
+						<span class="stack-item-desc"
+							>Unstyled, accessible component primitives</span
+						>
+					</div>
+					<div class="stack-item">
+						<span class="stack-item-name">TypeScript strict</span>
+						<span class="stack-item-desc"
+							>Full strictness, path aliases via tsconfig</span
+						>
+					</div>
+					<div class="stack-item">
+						<span class="stack-item-name">Zod v4</span>
+						<span class="stack-item-desc"
+							>Schema validation on server, errors sent to client</span
+						>
+					</div>
+					<div class="stack-item">
+						<span class="stack-item-name">Vite</span>
+						<span class="stack-item-desc"
+							>HMR dev server, optimized production build</span
+						>
+					</div>
+					<div class="stack-item">
+						<span class="stack-item-name">ESLint + Prettier</span>
+						<span class="stack-item-desc">Flat config, format on save</span>
+					</div>
+					<div class="stack-item">
+						<span class="stack-item-name">Husky + commitlint</span>
+						<span class="stack-item-desc"
+							>Pre-commit lint gate, conventional commits</span
+						>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Patterns -->
+		<section class="patterns">
+			<div class="container">
+				<p class="section-label">Included patterns</p>
+				<div class="pattern-list">
+					<div class="pattern-item">
+						<span class="pattern-num">01</span>
+						<div class="pattern-body">
+							<p class="pattern-title">Intent-based action routing</p>
+							<p class="pattern-desc">
+								A single <code>action()</code> per route handles all mutations
+								via a discriminated <code>intent</code> field — create, update,
+								delete.
+							</p>
+						</div>
+					</div>
+					<div class="pattern-item">
+						<span class="pattern-num">02</span>
+						<div class="pattern-body">
+							<p class="pattern-title">Optimistic UI via useFetcher</p>
+							<p class="pattern-desc">
+								Mutations reflect immediately before the server responds.
+								Revalidation syncs state on completion. No external state
+								manager needed.
+							</p>
+						</div>
+					</div>
+					<div class="pattern-item">
+						<span class="pattern-num">03</span>
+						<div class="pattern-body">
+							<p class="pattern-title">Server-only guard</p>
+							<p class="pattern-desc">
+								Add <code>import "@/lib/server/server-only"</code> to any file
+								that must never reach the client bundle. Throws loudly if
+								imported on the browser.
+							</p>
+						</div>
+					</div>
+					<div class="pattern-item">
+						<span class="pattern-num">04</span>
+						<div class="pattern-body">
+							<p class="pattern-title">Two-level error boundaries</p>
+							<p class="pattern-desc">
+								Root boundary replaces the full document. Route boundary keeps
+								the nav shell visible and handles 404s, 403s, and unexpected
+								errors per route.
+							</p>
+						</div>
+					</div>
+					<div class="pattern-item">
+						<span class="pattern-num">05</span>
+						<div class="pattern-body">
+							<p class="pattern-title">Feature-based folder structure</p>
+							<p class="pattern-desc">
+								Each feature owns its components, server code, types, and
+								schemas. Routes import from features — features never import
+								from routes.
+							</p>
+						</div>
+					</div>
+					<div class="pattern-item">
+						<span class="pattern-num">06</span>
+						<div class="pattern-body">
+							<p class="pattern-title">Swappable data layer</p>
+							<p class="pattern-desc">
+								The mock in-memory store matches the same async interface a real
+								ORM would. Swap Prisma or Drizzle in by replacing function
+								bodies only.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Structure -->
+		<section class="structure">
+			<div class="container">
+				<p class="section-label">Folder structure</p>
+				<div class="tree">
+					app/<br />
+					├── <span class="hl">components/</span><br />
+					│ ├── layout/app-layout.tsx
+					<span class="comment"># nav, loading bar, footer shell</span><br />
+					│ ├── root-error-boundary.tsx
+					<span class="comment"># full-page error (root level)</span><br />
+					│ └── route-error-boundary.tsx
+					<span class="comment"># in-page error (route level)</span><br />
+					├── <span class="hl">features/todos/</span>
+					<span class="comment"># feature slice</span><br />
+					│ ├── components/<br />
+					│ ├── server/<br />
+					│ │ ├── todo.schema.ts <span class="comment"># zod schemas</span
+					><br />
+					│ │ └── todo.server.ts
+					<span class="comment"># data layer (server-only)</span><br />
+					│ └── types/<br />
+					├── <span class="hl">lib/server/</span><br />
+					│ ├── http.ts
+					<span class="comment"># ok / fail / notFound helpers</span><br />
+					│ └── server-only.ts <span class="comment"># client-import guard</span
+					><br />
+					├── <span class="hl">routes/</span><br />
+					│ ├── home.tsx<br />
+					│ ├── todos.tsx <span class="comment"># loader + action demo</span
+					><br />
+					│ └── not-found.tsx <span class="comment"># catch-all 404</span><br />
+					└── types/index.ts
+					<span class="comment"># shared ActionResponse&lt;T&gt;</span>
+				</div>
+			</div>
+		</section>
+
+		<!-- Footer -->
+		<footer>
+			<div class="container">
+				<p>
+					MIT License · Built by
+					<a href="https://github.com/ahmdhndr" target="_blank" rel="noopener"
+						>ahmdhndr</a
+					>
+				</p>
+				<p>
+					<a
+						href="https://github.com/ahmdhndr/react-router-v7-starter"
+						target="_blank"
+						rel="noopener"
+						>github.com/ahmdhndr/react-router-v7-starter</a
+					>
+				</p>
+			</div>
+		</footer>
+
+		<script>
+			document.querySelectorAll(".copy-btn").forEach((btn) => {
+				btn.addEventListener("click", () => {
+					const targetId = btn.getAttribute("data-copy");
+					const pre = document.getElementById(targetId);
+					const text = pre.innerText
+						.split("\n")
+						.map((l) => l.replace(/^[$#]\s?/, "").trim())
+						.filter((l) => l && !l.startsWith("#"))
+						.join("\n");
+
+					navigator.clipboard.writeText(text).then(() => {
+						btn.textContent = "copied!";
+						setTimeout(() => (btn.textContent = "copy"), 2000);
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
