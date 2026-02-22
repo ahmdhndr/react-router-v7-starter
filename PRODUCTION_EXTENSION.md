@@ -94,12 +94,12 @@ internal APIs should have this guard.
 ```ts
 // routes/todos.tsx
 export async function loader(_: Route.LoaderArgs) {
- const todos = await getTodos();
- return { todos }; // serialized to JSON, typed via Route.ComponentProps
+	const todos = await getTodos();
+	return { todos }; // serialized to JSON, typed via Route.ComponentProps
 }
 
 export default function TodosPage({ loaderData }: Route.ComponentProps) {
- const { todos } = loaderData; // fully typed, no useEffect, no useQuery
+	const { todos } = loaderData; // fully typed, no useEffect, no useQuery
 }
 ```
 
@@ -116,22 +116,22 @@ hidden field acts as a discriminator:
 
 ```ts
 export async function action({ request }: Route.ActionArgs) {
- const formData = await request.formData();
- const intent = formData.get("intent");
+	const formData = await request.formData();
+	const intent = formData.get("intent");
 
- switch (intent) {
-  case "create": {
-   /* ... */
-  }
-  case "update": {
-   /* ... */
-  }
-  case "delete": {
-   /* ... */
-  }
-  default:
-   return fail("Unknown intent", undefined, 400);
- }
+	switch (intent) {
+		case "create": {
+			/* ... */
+		}
+		case "update": {
+			/* ... */
+		}
+		case "delete": {
+			/* ... */
+		}
+		default:
+			return fail("Unknown intent", undefined, 400);
+	}
 }
 ```
 
@@ -150,7 +150,7 @@ and read by `useFetcher` on the client:
 // Server (action)
 const parsed = createTodoSchema.safeParse(Object.fromEntries(formData));
 if (!parsed.success) {
- return fail("Validation failed", parsed.error.flatten().fieldErrors);
+	return fail("Validation failed", parsed.error.flatten().fieldErrors);
 }
 
 // Client (component)
@@ -169,9 +169,9 @@ deletion. The toggle updates the UI immediately before the server responds:
 
 ```ts
 const optimisticCompleted =
- toggleFetcher.state !== "idle"
-  ? toggleFetcher.formData?.get("completed") === "true"
-  : todo.completed;
+	toggleFetcher.state !== "idle"
+		? toggleFetcher.formData?.get("completed") === "true"
+		: todo.completed;
 ```
 
 When the server responds, React Router revalidates the loader and the UI
